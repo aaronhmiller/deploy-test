@@ -172,15 +172,15 @@ router.get("/api/download", async (ctx) => {
     items.push(entry.value);
   }
   ctx.response.headers.set("Content-Type", "application/json");
-  ctx.response.headers.set("Content-Disposition", "attachment; filename=kv_database.json");
+  ctx.response.headers.set(
+    "Content-Disposition",
+    "attachment; filename=kv_database.json",
+  );
   ctx.response.body = JSON.stringify(items, null, 2);
 });
-
-
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 console.log("Starting server...");
 await app.listen({ port: 8000 });
 console.log("Server is running on http://localhost:8000");
-
