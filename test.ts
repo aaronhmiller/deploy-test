@@ -115,8 +115,6 @@ router.get("/clear-all", (ctx) => {
   `;
 });
 
-app.use(router.routes());
-app.use(router.allowedMethods());
 console.log("Starting server...");
 await app.listen({ port: 8000 });
 
