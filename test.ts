@@ -1,6 +1,5 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 
-// Use Deno.openKv()
 const kv = await Deno.openKv();
 
 // Function to get the next ID
@@ -170,19 +169,6 @@ ck', async () => {
     </html>
   `;
 });
-
-// Add a new route to handle the download request
-router.get("/api/download", async (ctx) => {
-  const items = [];
-  for await (const entry of kv.list({ prefix: [] })) {
-    items.push(entry.value);
-  }
-  ctx.response.headers.set("Content-Type", "application/json");
-  ctx.response.headers.set("Content-Disposition", "attachment; filename=kv_ database.json");
-  ctx.response.body = JSON.stringify(items, null, 2);
-});
-
-
 
 app.use(router.routes());
 app.use(router.allowedMethods());
