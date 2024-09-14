@@ -178,8 +178,7 @@ router.get("/api/download", async (ctx) => {
     items.push(entry.value);
   }
   ctx.response.headers.set("Content-Type", "application/json");
-  ctx.response.headers.set("Content-Disposition", "attachment; filename=kv_
-database.json");
+  ctx.response.headers.set("Content-Disposition", "attachment; filename=kv_ database.json");
   ctx.response.body = JSON.stringify(items, null, 2);
 });
 
