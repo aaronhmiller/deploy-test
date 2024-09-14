@@ -68,6 +68,54 @@ router.post("/api/clear-all", async (ctx) => {
   ctx.response.body = { message: "All entries cleared" };
 });
 
+// Add this new route to serve the HTML file
+router.get("/clear-all", (ctx) => {
+  ctx.response.body = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.
+0">
+        <title>Clear KV Entries</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="clearButton">Clear All Entries</button>
+
+        <script>
+            document.getElementById('clearButton').addEventListener('click'
+, async () => {
+                try {
+                    const response = await fetch('/api/clear-all', { method
+: 'POST' });
+                    const result = await response.json();
+                    alert(result.message);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while clearing entries');
+                }
+            });
+        </script>
+    </body>
+    </html>
+  `;
+});
+
 console.log("Server running...");
 console.log("This is very very unique to see if ISOLATE is it...");
 
