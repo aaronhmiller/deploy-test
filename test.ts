@@ -116,7 +116,6 @@ router.get("/clear-all", (ctx) => {
 });
 
 console.log("Starting server...");
-await app.listen({ port: 8000 });
 
 console.log("Server running...");
 console.log("This is very very unique to see if ISOLATE is it...");
