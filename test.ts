@@ -115,61 +115,6 @@ router.get("/clear-all", (ctx) => {
   `;
 });
 
-// Add a new route for the download page
-router.get("/download", (ctx) => {
-  ctx.response.body = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.
-0">
-        <title>Download KV Database</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-            button {
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-            }
-        </style>
-    </head>
-    <body>
-        <button id="downloadButton">Download Database</button>
-
-        <script>
-            document.getElementById('downloadButton').addEventListener('cli
-ck', async () => {
-                try {
-                    const response = await fetch('/api/download');
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'kv_database.json';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('An error occurred while downloading the database
-');
-                }
-            });
-        </script>
-    </body>
-    </html>
-  `;
-});
-
 app.use(router.routes());
 app.use(router.allowedMethods());
 console.log("Starting server...");
