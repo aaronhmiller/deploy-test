@@ -34,6 +34,30 @@ router.get("/items/:id", async (ctx) => {
   }
 });
 
+// Update
+router.put("/items/:id", async (ctx) => {
+  const id = ctx.params.id;
+  const { data } = await ctx.request.body().value;
+  await kv.set(["items", id], data);
+  ctx.response.body = { id, data };
+});
+
+// Delete
+router.delete("/items/:id", async (ctx) => {
+  const id = ctx.params.id;
+  await kv.delete(["items", id]);
+  ctx.response.status = 204;
+});
+
+// List all
+router.get("/items", async (ctx) => {
+  const items = [];
+  for await (const entry of kv.list({ prefix: ["items"] })) {
+    items.push({ id: entry.key[1], data: entry.value });
+  }
+  ctx.response.body = items;
+});
+
 console.log("Server running...");
 console.log("This is very very unique to see if ISOLATE is it...");
 
