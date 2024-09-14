@@ -58,6 +58,16 @@ router.get("/items", async (ctx) => {
   ctx.response.body = items;
 });
 
+// Nuke
+router.post("/api/clear-all", async (ctx) => {
+  const promises = [];
+  for await (const entry of kv.list({ prefix: [] })) {
+    promises.push(kv.delete(entry.key));
+  }
+  await Promise.all(promises);
+  ctx.response.body = { message: "All entries cleared" };
+});
+
 console.log("Server running...");
 console.log("This is very very unique to see if ISOLATE is it...");
 
