@@ -15,6 +15,25 @@ async function getNextId(): Promise<string> {
 const app = new Application();
 const router = new Router();
 
+// Create
+router.post("/items", async (ctx) => {
+  const { data } = await ctx.request.body().value;
+  const id = await getNextId();
+  await kv.set(["items", id], data);
+  ctx.response.body = { id, data };
+});
+
+// Read
+router.get("/items/:id", async (ctx) => {
+  const id = ctx.params.id;
+  const data = await kv.get(["items", id]);
+  if (data.value) {
+    ctx.response.body = { id, data: data.value };
+  } else {
+    ctx.response.status = 404;
+  }
+});
+
 console.log("Server running...");
 console.log("This is very very unique to see if ISOLATE is it...");
 
